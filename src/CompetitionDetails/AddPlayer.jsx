@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { playerAction } from "../redux/slice/PlayerSlice";
 
-const AddPlayer = ({ competitionId, partCount }) => {
+const AddPlayer = ({ competitionId }) => {
   const dispatch = useDispatch();
   const participants = useSelector((state) => state.participentList);
   console.log(participants);
@@ -19,9 +19,8 @@ const AddPlayer = ({ competitionId, partCount }) => {
       setError("Player name already exists.");
       return;
     }
-    dispatch(
-      playerAction.addParticipant({ competitionId, playerName, partCount })
-    );
+    dispatch(playerAction.addParticipant({ competitionId, playerName }));
+    dispatch(playerAction.decrementParticipantCount({competitionId}));
     setPlayerName("");
     setError("");
   };

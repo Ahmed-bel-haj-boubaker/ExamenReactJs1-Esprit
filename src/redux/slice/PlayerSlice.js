@@ -2,7 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   participentList: [],
-  participantCount: 10,
+  competitions: [
+    {
+      id: "1",
+      participants: 10,
+    },
+    {
+      id: "2",
+      participants: 0,
+    },
+  ],
 };
 
 export const playerSlice = createSlice({
@@ -11,12 +20,24 @@ export const playerSlice = createSlice({
   reducers: {
     addParticipant: (state, action) => {
       const newParticipant = action.payload;
+      console.log(newParticipant);
       const existingParticipant = state.participentList.find(
         (participant) => participant.playerName === newParticipant.playerName
       );
       if (!existingParticipant) {
         state.participentList.push(newParticipant);
-        state.participantCount--;
+      }
+    },
+
+    decrementParticipantCount: (state, action) => {
+      const { competitionId } = action.payload;
+      console.log("competitionId",competitionId)
+      const competition = state.competitions.find(
+        (comp) => comp.id === competitionId
+      );
+      console.log("com" ,competition)
+      if (competition) {
+        competition.participants --;
       }
     },
   },

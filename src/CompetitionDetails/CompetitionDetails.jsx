@@ -10,9 +10,10 @@ const CompetitionDetails = () => {
   console.log(id);
   const [data, setData] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const res = useSelector((state) => state.participantCount);
-  const listUserName = useSelector((state) => state.participentList);
 
+  const listUserName = useSelector((state) => state.participentList);
+  const participantCount = useSelector((state) => state.competitions);
+  console.log(participantCount.map((e) => e.participants));
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -28,6 +29,7 @@ const CompetitionDetails = () => {
   const openFormHandler = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div>
       <h1>{data.name}</h1>
@@ -35,7 +37,11 @@ const CompetitionDetails = () => {
 
       <h2>Date: {data.date}</h2>
       <p>{data.description}</p>
-      <h2>{res}</h2>
+      <h2>
+        {participantCount
+          .filter((e) => e.id === data.id)
+          .map((e) => e.participants)}
+      </h2>
       {data.participants === 0 ? (
         <button
           style={{
